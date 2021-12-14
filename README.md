@@ -1,26 +1,20 @@
-# @semantic-release/exec
+# semantic-release-yaml
 
-[**semantic-release**](https://github.com/semantic-release/semantic-release) plugin to execute custom shell commands.
+[**semantic-release**](https://github.com/semantic-release/semantic-release) plugin to change yaml files.
 
 [![Build Status](https://github.com/semantic-release/exec/workflows/Test/badge.svg)](https://github.com/semantic-release/exec/actions?query=workflow%3ATest+branch%3Amaster) [![npm latest version](https://img.shields.io/npm/v/@semantic-release/exec/latest.svg)](https://www.npmjs.com/package/@semantic-release/exec)
 [![npm next version](https://img.shields.io/npm/v/@semantic-release/exec/next.svg)](https://www.npmjs.com/package/@semantic-release/exec)
 [![npm beta version](https://img.shields.io/npm/v/@semantic-release/exec/beta.svg)](https://www.npmjs.com/package/@semantic-release/exec)
 
-| Step               | Description                                                                                             |
-|--------------------|---------------------------------------------------------------------------------------------------------|
-| `verifyConditions` | Execute a shell command to verify if the release should happen.                                         |
-| `analyzeCommits`   | Execute a shell command to determine the type of release.                                               |
-| `verifyRelease`    | Execute a shell command to verifying a release that was determined before and is about to be published. |
-| `generateNotes`    | Execute a shell command to generate the release note.                                                   |
-| `prepare`          | Execute a shell command to prepare the release.                                                         |
-| `publish`          | Execute a shell command to publish the release.                                                         |
-| `success`          | Execute a shell command to notify of a new release.                                                     |
-| `fail`             | Execute a shell command to notify of a failed release.                                                  |
+| Step      | Description                         |
+| --------- | ----------------------------------- |
+| `prepare` | edit yaml during prepare the phase. |
+| `publish` | edit yaml during publish the phase. |
 
 ## Install
 
 ```bash
-$ npm install @semantic-release/exec -D
+$ npm install semantic-release-yaml -D
 ```
 
 ## Usage
@@ -32,15 +26,19 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
-    ["@semantic-release/exec", {
-      "verifyConditionsCmd": "./verify.sh",
-      "publishCmd": "./publish.sh ${nextRelease.version} ${options.branch} ${commits.length} ${Date.now()}"
-    }],
+    [
+      "@semantic-release/exec",
+      {
+        "verifyConditionsCmd": "./verify.sh",
+        "publishCmd": "./publish.sh ${nextRelease.version} ${options.branch} ${commits.length} ${Date.now()}"
+      }
+    ]
   ]
 }
 ```
 
 With this example:
+
 - the shell command `./verify.sh` will be executed on the [verify conditions step](https://github.com/semantic-release/semantic-release#release-steps)
 - the shell command `./publish.sh 1.0.0 master 3 870668040000` (for the release of version `1.0.0` from branch `master` with `3` commits on `August 4th, 1997 at 2:14 AM`) will be executed on the [publish step](https://github.com/semantic-release/semantic-release#release-steps)
 
@@ -51,7 +49,7 @@ With this example:
 ### Options
 
 | Options               | Description                                                                                                                                                                                                                                                                                                                              |
-|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `verifyConditionsCmd` | The shell command to execute during the verify condition step. See [verifyConditionsCmd](#verifyconditionscmd).                                                                                                                                                                                                                          |
 | `analyzeCommitsCmd`   | The shell command to execute during the analyze commits step. See [analyzeCommitsCmd](#analyzecommitscmd).                                                                                                                                                                                                                               |
 | `verifyReleaseCmd`    | The shell command to execute during the verify release step. See [verifyReleaseCmd](#verifyreleasecmd).                                                                                                                                                                                                                                  |
@@ -71,7 +69,7 @@ Each shell command is generated with [Lodash template](https://lodash.com/docs#t
 Execute a shell command to verify if the release should happen.
 
 | Command property | Description                                                              |
-|------------------|--------------------------------------------------------------------------|
+| ---------------- | ------------------------------------------------------------------------ |
 | `exit code`      | `0` if the verification is successful, or any other exit code otherwise. |
 | `stdout`         | Write only the reason for the verification to fail.                      |
 | `stderr`         | Can be used for logging.                                                 |
@@ -79,7 +77,7 @@ Execute a shell command to verify if the release should happen.
 ## analyzeCommitsCmd
 
 | Command property | Description                                                                                                                                                |
-|------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `exit code`      | Any non `0` code is considered as an unexpected error and will stop the `semantic-release` execution with an error.                                        |
 | `stdout`         | Only the release type (`major`, `minor` or `patch` etc..) can be written to `stdout`. If no release has to be done the command must not write to `stdout`. |
 | `stderr`         | Can be used for logging.                                                                                                                                   |
@@ -87,7 +85,7 @@ Execute a shell command to verify if the release should happen.
 ## verifyReleaseCmd
 
 | Command property | Description                                                              |
-|------------------|--------------------------------------------------------------------------|
+| ---------------- | ------------------------------------------------------------------------ |
 | `exit code`      | `0` if the verification is successful, or any other exit code otherwise. |
 | `stdout`         | Only the reason for the verification to fail can be written to `stdout`. |
 | `stderr`         | Can be used for logging.                                                 |
@@ -95,7 +93,7 @@ Execute a shell command to verify if the release should happen.
 ## generateNotesCmd
 
 | Command property | Description                                                                                                         |
-|------------------|---------------------------------------------------------------------------------------------------------------------|
+| ---------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `exit code`      | Any non `0` code is considered as an unexpected error and will stop the `semantic-release` execution with an error. |
 | `stdout`         | Only the release note must be written to `stdout`.                                                                  |
 | `stderr`         | Can be used for logging.                                                                                            |
@@ -103,7 +101,7 @@ Execute a shell command to verify if the release should happen.
 ## prepareCmd
 
 | Command property | Description                                                                                                         |
-|------------------|---------------------------------------------------------------------------------------------------------------------|
+| ---------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `exit code`      | Any non `0` code is considered as an unexpected error and will stop the `semantic-release` execution with an error. |
 | `stdout`         | Can be used for logging.                                                                                            |
 | `stderr`         | Can be used for logging.                                                                                            |
@@ -111,7 +109,7 @@ Execute a shell command to verify if the release should happen.
 ## addChannelCmd
 
 | Command property | Description                                                                                                                                                                                                                                        |
-|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `exit code`      | Any non `0` code is considered as an unexpected error and will stop the `semantic-release` execution with an error.                                                                                                                                |
 | `stdout`         | The `release` information can be written to `stdout` as parseable JSON (for example `{"name": "Release name", "url": "http://url/release/1.0.0"}`). If the command write non parseable JSON to `stdout` no `release` information will be returned. |
 | `stderr`         | Can be used for logging.                                                                                                                                                                                                                           |
@@ -119,7 +117,7 @@ Execute a shell command to verify if the release should happen.
 ## publishCmd
 
 | Command property | Description                                                                                                                                                                                                                                        |
-|------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `exit code`      | Any non `0` code is considered as an unexpected error and will stop the `semantic-release` execution with an error.                                                                                                                                |
 | `stdout`         | The `release` information can be written to `stdout` as parseable JSON (for example `{"name": "Release name", "url": "http://url/release/1.0.0"}`). If the command write non parseable JSON to `stdout` no `release` information will be returned. |
 | `stderr`         | Can be used for logging.                                                                                                                                                                                                                           |
@@ -127,7 +125,7 @@ Execute a shell command to verify if the release should happen.
 ## successCmd
 
 | Command property | Description                                                                                                         |
-|------------------|---------------------------------------------------------------------------------------------------------------------|
+| ---------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `exit code`      | Any non `0` code is considered as an unexpected error and will stop the `semantic-release` execution with an error. |
 | `stdout`         | Can be used for logging.                                                                                            |
 | `stderr`         | Can be used for logging.                                                                                            |
@@ -135,7 +133,7 @@ Execute a shell command to verify if the release should happen.
 ## failCmd
 
 | Command property | Description                                                                                                         |
-|------------------|---------------------------------------------------------------------------------------------------------------------|
+| ---------------- | ------------------------------------------------------------------------------------------------------------------- |
 | `exit code`      | Any non `0` code is considered as an unexpected error and will stop the `semantic-release` execution with an error. |
 | `stdout`         | Can be used for logging.                                                                                            |
 | `stderr`         | Can be used for logging.                                                                                            |
