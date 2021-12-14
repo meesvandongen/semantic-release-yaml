@@ -1,7 +1,7 @@
-import { yaml } from "./lib/yaml";
-import { verifyCommands } from "./lib/verify-commands";
-import { Configuration } from "./lib/definitions/configuration.interface";
-import { SemanticContext } from "./lib/definitions/semantic-context.interface";
+import { yaml } from "./yaml";
+import { verifyCommands } from "./verify-commands";
+import { Configuration } from "./definitions/configuration.interface";
+import { SemanticContext } from "./definitions/semantic-context.interface";
 
 export function prepare(pluginConfig: Configuration, context: SemanticContext) {
   const commands = pluginConfig.commands.filter(command => command.phase === "prepare");

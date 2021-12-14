@@ -8,7 +8,14 @@ import set from "lodash/set";
 
 export const yaml = (
   command: Command,
-  { cwd, env, stdout, stderr, logger, ...context }: SemanticContext
+  {
+    cwd = process.cwd(),
+    env,
+    stdout,
+    stderr,
+    logger,
+    ...context
+  }: SemanticContext
 ) => {
   const newValue = template(command.template)(context);
 
@@ -19,7 +26,7 @@ export const yaml = (
 
   const yamlFile = jsYaml.load(fs.readFileSync(pathToFile, "utf8"));
 
-  if (typeof yamlFile !== "object") {
+  if (typeof yamlFile !== "object" || yamlFile === null) {
     throw new Error(`The file ${pathToFile} is not a valid YAML file.`);
   }
   set(yamlFile, command.selector, newValue);

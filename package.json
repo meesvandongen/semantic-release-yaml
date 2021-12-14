@@ -1,5 +1,5 @@
 {
-  "name": "@semantic-release/exec",
+  "name": "semantic-release-yaml",
   "description": "semantic-release plugin to edit yaml files",
   "version": "1.0.0",
   "author": "Mees van Dongen",
@@ -17,14 +17,11 @@
     "@types/js-yaml": "^4.0.5",
     "@types/lodash": "^4.14.178",
     "@types/semantic-release": "^17.2.3",
+    "microbundle": "^0.14.2",
     "semantic-release": "18.0.1"
   },
-  "engines": {
-    "node": ">=14.17"
-  },
   "files": [
-    "lib",
-    "index.js"
+    "dist/**/*"
   ],
   "homepage": "https://github.com/meesvandongen/semantic-release-yaml#readme",
   "keywords": [
@@ -37,6 +34,7 @@
     "version"
   ],
   "license": "MIT",
+  "source": "src/index.ts",
   "main": "dist/index.js",
   "peerDependencies": {
     "semantic-release": ">=18.0.0"
@@ -49,6 +47,8 @@
     "url": "https://github.com/meesvandongen/semantic-release-yaml.git"
   },
   "scripts": {
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "build": "microbundle --target=node --format cjs --compress",
+    "build:watch": "microbundle watch --target=node --format cjs --compress"
   }
 }

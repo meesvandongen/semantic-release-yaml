@@ -1,6 +1,6 @@
 import { Command } from "./definitions/configuration.interface";
-import isNil from "lodash/isNil";
-import isString from "lodash/isString";
+import { isNil } from "lodash";
+import { isString } from "lodash";
 import AggregateError from "aggregate-error";
 import { getError } from "./get-error";
 
