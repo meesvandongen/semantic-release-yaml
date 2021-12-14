@@ -4,8 +4,12 @@ import isString from "lodash/isString";
 import AggregateError from "aggregate-error";
 import { getError } from "./get-error";
 
-const isNonEmptyString = (value: unknown) => isString(value) && value.trim().length > 0;
-const isOptional = (validator: (value: unknown) => boolean) => (value: unknown) => isNil(value) || validator(value);
+const isNonEmptyString = (value: unknown) =>
+  isString(value) && value.trim().length > 0;
+
+const isOptional =
+  (validator: (value: unknown) => boolean) => (value: unknown) =>
+    isNil(value) || validator(value);
 
 const VALIDATORS = {
   cmd: isNonEmptyString,
@@ -13,7 +17,7 @@ const VALIDATORS = {
 };
 
 export function verifyCommands(commands: Array<Command>) {
-  const errors = commands.flatMap(command =>
+  const errors = commands.flatMap((command) =>
     Object.keys(VALIDATORS).reduce((errors, key) => {
       const validator = VALIDATORS[key];
       const value = command[key];

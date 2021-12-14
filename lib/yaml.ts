@@ -6,7 +6,10 @@ import { Command } from "./definitions/configuration.interface";
 import { SemanticContext } from "./definitions/semantic-context.interface";
 import set from "lodash/set";
 
-export const yaml = (command: Command, { cwd, env, stdout, stderr, logger, ...context }: SemanticContext) => {
+export const yaml = (
+  command: Command,
+  { cwd, env, stdout, stderr, logger, ...context }: SemanticContext
+) => {
   const newValue = template(command.template)(context);
 
   logger.log("Call script %s", newValue);
