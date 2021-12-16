@@ -11,9 +11,14 @@ const isOptional =
   (validator: (value: unknown) => boolean) => (value: unknown) =>
     isNil(value) || validator(value);
 
-const VALIDATORS = {
-  cmd: isNonEmptyString,
+const VALIDATORS: {
+  [key in keyof Command]: (value: unknown) => boolean;
+} = {
   cwd: isOptional(isNonEmptyString),
+  file: isNonEmptyString,
+  phase: isNonEmptyString,
+  selector: isNonEmptyString,
+  template: isNonEmptyString,
 };
 
 export function verifyCommands(commands: Array<Command>) {
