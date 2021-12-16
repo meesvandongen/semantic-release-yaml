@@ -28,7 +28,7 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
             "phase": "prepare",
             "file": "./Chart.yaml",
             "selector": "version",
-            "value": "${nextRelease.version}"
+            "template": "${nextRelease.version}"
           }
         ]
       }
