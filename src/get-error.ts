@@ -2,8 +2,7 @@ import SemanticReleaseError from "@semantic-release/error";
 import isString from "lodash/isString";
 import { inspect } from "util";
 import { Command } from "./definitions/configuration.interface";
-
-const pkg = require("../../package.json");
+import pkg from "../package.json";
 
 const [homepage] = pkg.homepage.split("#");
 const stringify = (object) =>
