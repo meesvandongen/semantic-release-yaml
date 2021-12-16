@@ -5,37 +5,29 @@ import { Command } from "./definitions/configuration.interface";
 import pkg from "../package.json";
 
 const [homepage] = pkg.homepage.split("#");
-const stringify = (object) =>
-  isString(object)
-    ? object
-    : inspect(object, { breakLength: Infinity, depth: 2, maxArrayLength: 5 });
-const linkify = (file) => `${homepage}/blob/master/${file}`;
 
-const errors = {
-  cmd: (command: Command) => ({
-    message: `Invalid \`cmd\` option for phase \`${command.phase}\`.`,
-    details: `The [\`cmd\` option](${linkify(
-      `README.md#options`
-    )}) is required and must be a non empty \`String\`.
+function stringify(object: unknown) {
+  if (isString(object)) {
+    return object;
+  }
+  return inspect(object, {
+    breakLength: Infinity,
+    depth: 2,
+    maxArrayLength: 5,
+  });
+}
 
-Your configuration for the \`cmd\` option is \`${stringify(
-      command.template
+function linkify(file: string) {
+  return `${homepage}/blob/master/${file}`;
+}
+
+export function getError(key: keyof Command, command: Command): Error {
+  const message = [
+    `for usage, see ${linkify("README.md#options")}`,
+    "",
+    `Your configuration for the \`${key}\` option is \`${stringify(
+      command[key]
     )}\`.`,
-  }),
-  cwd: (command: Command) => ({
-    message: "Invalid `cwd` option.",
-    details: `The [\`cwd\` option](${linkify(
-      "README.md#options"
-    )}) if defined, must be a non empty \`String\`.
-
-Your configuration for the \`cwd\` option is \`${stringify(command.cwd)}\`.`,
-  }),
-};
-
-export function getError(
-  commandKey: string,
-  command: Command
-): SemanticReleaseError {
-  const { message, details } = errors[commandKey](command);
-  return new SemanticReleaseError(message, commandKey, details);
+  ].join("\n");
+  return new SemanticReleaseError(`Invalid \`${key}\` option.`, key, message);
 }

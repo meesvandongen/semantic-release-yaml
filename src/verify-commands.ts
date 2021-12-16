@@ -11,27 +11,28 @@ const isOptional =
   (validator: (value: unknown) => boolean) => (value: unknown) =>
     isNil(value) || validator(value);
 
-const VALIDATORS: {
-  [key in keyof Command]: (value: unknown) => boolean;
-} = {
-  cwd: isOptional(isNonEmptyString),
-  file: isNonEmptyString,
-  phase: isNonEmptyString,
-  selector: isNonEmptyString,
-  template: isNonEmptyString,
-};
+interface Validator {
+  key: keyof Command;
+  validator: (value: unknown) => boolean;
+}
+const validators: Array<Validator> = [
+  { key: "cwd", validator: isOptional(isNonEmptyString) },
+  { key: "file", validator: isNonEmptyString },
+  { key: "phase", validator: isNonEmptyString },
+  { key: "selector", validator: isNonEmptyString },
+  { key: "template", validator: isNonEmptyString },
+];
 
 export function verifyCommands(commands: Array<Command>) {
   const errors = commands.flatMap((command) =>
-    Object.keys(VALIDATORS).reduce((errors, key) => {
-      const validator = VALIDATORS[key];
+    validators.reduce((errors, { key, validator }) => {
       const value = command[key];
 
       if (!validator(value)) {
         return errors.concat(getError(key, command));
       }
       return errors;
-    }, [])
+    }, [] as Array<Error>)
   );
 
   if (errors.length > 0) {
