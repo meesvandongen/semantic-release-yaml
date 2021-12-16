@@ -1,7 +1,7 @@
 {
   "name": "semantic-release-yaml",
   "description": "semantic-release plugin to edit yaml files",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Mees van Dongen",
   "bugs": {
     "url": "https://github.com/meesvandongen/semantic-release-yaml/issues"
