@@ -20,7 +20,7 @@ const validators: Array<Validator> = [
   { key: "file", validator: isNonEmptyString },
   { key: "phase", validator: isNonEmptyString },
   { key: "selector", validator: isNonEmptyString },
-  { key: "template", validator: isNonEmptyString },
+  { key: "value", validator: isNonEmptyString },
 ];
 
 export function verifyCommands(commands: Array<Command>) {
