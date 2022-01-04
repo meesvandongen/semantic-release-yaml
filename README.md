@@ -33,10 +33,10 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
             "phase": "prepare",
             // The file to edit
             "file": "./Chart.yaml",
-            // The field in the file to edit. Evaluated via lodash's `set` function.
+            // The field in the file to edit.
             "selector": "version",
-            // The value to set the field to. Evaluated via lodash's `template` function.
-            "template": "${nextRelease.version}"
+            // The value to set the field to.
+            "value": "${nextRelease.version}"
           }
         ]
       }
@@ -52,7 +52,42 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
 }
 ```
 
-More info about:
+## Lodash `template`
+
+- Lodash `template`: https://lodash.com/docs/4.17.15#template
+
+Each variable (`cwd`, `phase`, `file`, `selector`, `value`) in a command is evaluated via lodash's `template` function.
+
+```json
+{
+  ...
+  "value": "${nextRelease.version}"
+}
+```
+
+## Lodash `set`
 
 - Lodash `set`: https://lodash.com/docs/4.17.15#set
-- Lodash `template`: https://lodash.com/docs/4.17.15#template
+
+Next to this; selector is used by lodash's `set` function to set the value of the field.
+
+This means you can write the following command:
+
+```json
+{
+  ...
+  "selector": "meta.version",
+  "value": "${nextRelease.version}"
+}
+```
+
+which could result in the following:
+
+```yaml
+version:
+  value: "1.0.0"
+```
+
+## Yaml comments
+
+Yaml comments will be preserved.
