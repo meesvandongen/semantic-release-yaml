@@ -18,9 +18,9 @@ export interface Command {
    */
   selector: string;
   /**
-   * The template for the next value to be inserted in the YAML file.
+   * The next value to be inserted in the YAML file.
    */
-  template: string;
+  value: string;
 }
 
 export interface Configuration {

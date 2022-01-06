@@ -1,35 +1,44 @@
 import path from "path";
 import template from "lodash/template";
-import jsYaml from "js-yaml";
 import fs from "fs";
 import { Command } from "./definitions/configuration.interface";
 import { SemanticContext } from "./definitions/semantic-context.interface";
 import set from "lodash/set";
+import { yamlDiffPatch } from "yaml-diff-patch";
+import jsYaml from "js-yaml";
 
 export const yaml = (
   command: Command,
-  {
-    cwd = process.cwd(),
-    env,
-    stdout,
-    stderr,
-    logger,
-    ...context
-  }: SemanticContext
+  { cwd = process.cwd(), env, logger, ...context }: SemanticContext
 ) => {
-  const newValue = template(command.template)(context);
+  const interpretedCwd = template(command.cwd)(context);
+  const interpretedFile = template(command.file)(context);
+  const interpretedSelector = template(command.selector)(context);
+  const interpretedValue = template(command.value)(context);
 
-  logger.log("Call script %s", newValue);
+  const workingDirectory = interpretedCwd
+    ? path.resolve(cwd, interpretedCwd)
+    : cwd;
+  const pathToFile = path.resolve(workingDirectory, interpretedFile);
 
-  const workingDirectory = command.cwd ? path.resolve(cwd, command.cwd) : cwd;
-  const pathToFile = path.resolve(workingDirectory, command.file);
+  logger.log(
+    `Updating -> path: ${pathToFile} | selector: ${interpretedSelector} | value: ${interpretedValue}`
+  );
 
-  const yamlFile = jsYaml.load(fs.readFileSync(pathToFile, "utf8"));
+  const yamlFileRaw = fs.readFileSync(pathToFile, "utf8");
+  const originalYamlFile = jsYaml.load(yamlFileRaw);
+  const changedYamlFile = jsYaml.load(yamlFileRaw);
 
-  if (typeof yamlFile !== "object" || yamlFile === null) {
+  if (typeof changedYamlFile !== "object" || changedYamlFile === null) {
     throw new Error(`The file ${pathToFile} is not a valid YAML file.`);
   }
-  set(yamlFile, command.selector, newValue);
 
-  fs.writeFileSync(pathToFile, jsYaml.dump(yamlFile));
+  set(changedYamlFile, interpretedSelector, interpretedValue);
+  const yamlResult = yamlDiffPatch(
+    yamlFileRaw,
+    originalYamlFile,
+    changedYamlFile
+  );
+
+  fs.writeFileSync(pathToFile, yamlResult);
 };

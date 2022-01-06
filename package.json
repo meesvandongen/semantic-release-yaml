@@ -1,7 +1,7 @@
 {
   "name": "semantic-release-yaml",
   "description": "semantic-release plugin to edit yaml files",
-  "version": "1.0.5",
+  "version": "1.1.2",
   "author": "Mees van Dongen",
   "bugs": {
     "url": "https://github.com/meesvandongen/semantic-release-yaml/issues"
@@ -11,15 +11,21 @@
     "aggregate-error": "^3.0.0",
     "debug": "^4.0.0",
     "js-yaml": "^4.1.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "yaml-diff-patch": "^1.1.0"
   },
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
+    "@swc/core": "^1.2.125",
+    "@swc/jest": "^0.2.15",
+    "@types/jest": "^27.4.0",
     "@types/js-yaml": "^4.0.5",
     "@types/lodash": "^4.14.178",
     "@types/semantic-release": "^17.2.3",
+    "jest": "^27.4.5",
     "microbundle": "^0.14.2",
-    "semantic-release": "18.0.1"
+    "semantic-release": "18.0.1",
+    "type-fest": "^2.8.0"
   },
   "files": [
     "dist/**/*"
@@ -50,6 +56,8 @@
   "scripts": {
     "semantic-release": "semantic-release",
     "build": "microbundle --target=node --format cjs --compress",
-    "build:watch": "microbundle watch --target=node --format cjs --compress"
+    "build:watch": "microbundle watch --target=node --format cjs --compress",
+    "test": "jest",
+    "test:watch": "jest --watch"
   }
 }
