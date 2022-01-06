@@ -18,6 +18,10 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
 
 ```json
 {
+  // We specify the branches, on which semantic-release should run.
+  // This will be used in a later step, when we use the current
+  // branch name as variables in the configuration.
+  "branches": ["main", "next"],
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/npm",
@@ -37,6 +41,14 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
             "selector": "version",
             // The value to set the field to.
             "value": "${nextRelease.version}"
+          },
+          {
+            "cwd": "./",
+            "phase": "prepare",
+            // A dynamic file name.
+            "file": "./${branch.name}.yaml",
+            "selector": "name",
+            "value": "${nextRelease.version}"
           }
         ]
       }
@@ -45,7 +57,14 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
       "@semantic-release/git",
       {
         // Make sure Chart.yaml is pushed to the remote repository
-        "assets": ["package.json", "Chart.yaml"]
+        "assets": [
+          "package.json",
+          "Chart.yaml",
+          // Also include main.yaml and next.yaml. These are the possible
+          // outcomes of the second command: the dynamic file name.
+          "./main.yaml",
+          "./next.yaml"
+        ]
       }
     ]
   ]
@@ -64,6 +83,10 @@ Each variable (`cwd`, `phase`, `file`, `selector`, `value`) in a command is eval
   "value": "${nextRelease.version}"
 }
 ```
+
+### Available variables
+
+You can use all variables available in the [semantic-release context](https://semantic-release.gitbook.io/semantic-release/developer-guide/plugin)
 
 ## Lodash `set`
 

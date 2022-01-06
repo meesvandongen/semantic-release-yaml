@@ -16,7 +16,12 @@ export const yaml = (
   const interpretedSelector = template(command.selector)(context);
   const interpretedValue = template(command.value)(context);
 
-  logger.log("Writing to file %s", interpretedValue);
+  logger.log(
+    "file: %f - selector: %s - value: %v",
+    interpretedFile,
+    interpretedSelector,
+    interpretedValue
+  );
 
   const workingDirectory = interpretedCwd
     ? path.resolve(cwd, interpretedCwd)
