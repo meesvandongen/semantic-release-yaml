@@ -16,17 +16,14 @@ export const yaml = (
   const interpretedSelector = template(command.selector)(context);
   const interpretedValue = template(command.value)(context);
 
-  logger.log(
-    "file: %f - selector: %s - value: %v",
-    interpretedFile,
-    interpretedSelector,
-    interpretedValue
-  );
-
   const workingDirectory = interpretedCwd
     ? path.resolve(cwd, interpretedCwd)
     : cwd;
   const pathToFile = path.resolve(workingDirectory, interpretedFile);
+
+  logger.log(
+    `Updating -> path: ${pathToFile} | selector: ${interpretedSelector} | value: ${interpretedValue}`
+  );
 
   const yamlFileRaw = fs.readFileSync(pathToFile, "utf8");
   const originalYamlFile = jsYaml.load(yamlFileRaw);
