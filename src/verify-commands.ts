@@ -18,7 +18,6 @@ interface Validator {
 const validators: Array<Validator> = [
   { key: "cwd", validator: isOptional(isNonEmptyString) },
   { key: "file", validator: isNonEmptyString },
-  { key: "phase", validator: isNonEmptyString },
   { key: "selector", validator: isNonEmptyString },
   { key: "value", validator: isNonEmptyString },
 ];

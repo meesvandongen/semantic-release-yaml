@@ -28,7 +28,6 @@ it("should successfully update version number", () => {
   const command: Command = {
     cwd: ".",
     file: "./__test.yaml",
-    phase: "prepare",
     selector: "version",
     value: "${nextRelease.version}",
   };
@@ -44,7 +43,6 @@ it("preserves comments in a yaml file", () => {
   const command: Command = {
     cwd: ".",
     file: "./__test.yaml",
-    phase: "prepare",
     selector: "version",
     value: "${nextRelease.version}",
   };
