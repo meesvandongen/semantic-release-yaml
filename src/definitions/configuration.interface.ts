@@ -1,14 +1,8 @@
-export type CommandPhase = "prepare";
-
 export interface Command {
   /**
    * Current working directory.
    */
   cwd: string;
-  /**
-   * The phase in which the command should be executed.
-   */
-  phase: CommandPhase;
   /**
    * The YAML file on which the command should be executed.
    */

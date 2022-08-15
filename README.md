@@ -33,8 +33,6 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
           {
             // The current working directory is the root of the project.
             "cwd": "./",
-            // Currently only supports "prepare" phase.
-            "phase": "prepare",
             // The file to edit
             "file": "./Chart.yaml",
             // The field in the file to edit.
@@ -44,7 +42,6 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
           },
           {
             "cwd": "./",
-            "phase": "prepare",
             // A dynamic file name.
             "file": "./${branch.name}.yaml",
             "selector": "name",
@@ -75,7 +72,7 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
 
 - Lodash `template`: https://lodash.com/docs/4.17.15#template
 
-Each variable (`cwd`, `phase`, `file`, `selector`, `value`) in a command is evaluated via lodash's `template` function.
+Each variable (`cwd`, `file`, `selector`, `value`) in a command is evaluated via lodash's `template` function.
 
 ```json
 {
