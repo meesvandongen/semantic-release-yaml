@@ -23,7 +23,7 @@
     "@types/lodash": "^4.14.178",
     "@types/semantic-release": "^17.2.3",
     "jest": "^27.4.5",
-    "microbundle": "^0.14.2",
+    "microbundle": "^0.15.0",
     "semantic-release": "18.0.1",
     "type-fest": "^2.8.0"
   },
