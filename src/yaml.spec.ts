@@ -1,4 +1,5 @@
 import path from "path";
+import { afterEach, beforeEach, expect, it, vi } from "vite-plus/test";
 import { Command } from "./definitions/configuration.interface";
 import { SemanticContext } from "./definitions/semantic-context.interface";
 import { yaml } from "./yaml";
@@ -6,7 +7,7 @@ import fs from "fs";
 import { PartialDeep } from "type-fest";
 
 let context: PartialDeep<SemanticContext> = {
-  logger: { log: jest.fn(), error: jest.fn() },
+  logger: { log: vi.fn(), error: vi.fn() },
   options: {},
   nextRelease: {
     version: "1.0.0",
