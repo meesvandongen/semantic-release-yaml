@@ -1,3 +1,3 @@
-import { Config, Context } from "semantic-release";
+import { PrepareContext } from "semantic-release";
 
-export type SemanticContext = Config & Context;
+export type SemanticContext = PrepareContext;
