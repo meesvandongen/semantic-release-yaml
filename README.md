@@ -68,6 +68,17 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
 }
 ```
 
+## Options
+
+Each command in `commands` takes the following options:
+
+| Option     | Required | Description                                                                                           |
+| ---------- | -------- | ----------------------------------------------------------------------------------------------------- |
+| `cwd`      | no       | The directory `file` is resolved against. Defaults to the directory semantic-release runs in.         |
+| `file`     | yes      | The YAML file to edit.                                                                                |
+| `selector` | yes      | The field to set, or an array of fields. See [Lodash `set`](#lodash-set) and [Wildcards](#wildcards). |
+| `value`    | yes      | The value to set the field to.                                                                        |
+
 ## Lodash `template`
 
 - Lodash `template`: https://lodash.com/docs/4.17.15#template
@@ -104,8 +115,48 @@ This means you can write the following command:
 which could result in the following:
 
 ```yaml
-version:
-  value: "1.0.0"
+meta:
+  version: 1.0.0
+```
+
+## Wildcards
+
+A `*` in the selector matches every item of a list, or every key of a map. Both `modules[*].version` and `modules.*.version` are supported.
+
+Given the following file:
+
+```yaml
+modules:
+  - name: moduleABC
+    properties:
+      VERSION:
+  - name: moduleXYZ
+    properties:
+      VERSION:
+```
+
+the selector `modules[*].properties.VERSION` sets `VERSION` in every module:
+
+```json
+{
+  ...
+  "selector": "modules[*].properties.VERSION",
+  "value": "${nextRelease.version}"
+}
+```
+
+Unlike a selector without a wildcard, a selector with a wildcard never adds items to a list or creates missing parents: a module without `properties` is skipped. Only the last key may be added, when its parent map already exists. If a selector matches nothing, a warning is logged and the file is left as is.
+
+## Multiple selectors
+
+To set several fields to the same value, pass an array of selectors:
+
+```json
+{
+  ...
+  "selector": ["version", "appVersion"],
+  "value": "${nextRelease.version}"
+}
 ```
 
 ## Yaml comments

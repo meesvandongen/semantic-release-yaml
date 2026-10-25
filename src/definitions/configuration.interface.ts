@@ -9,8 +9,10 @@ export interface Command {
   file: string;
   /**
    * The subpath leading to the field which should get a new value (evaluated with https://lodash.com/docs/4.17.15#set).
+   * A `*` segment matches every existing item of a sequence or key of a mapping.
+   * Multiple selectors can be given as an array; each one is set to `value`.
    */
-  selector: string;
+  selector: string | Array<string>;
   /**
    * The next value to be inserted in the YAML file.
    */

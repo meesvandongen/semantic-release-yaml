@@ -1,11 +1,16 @@
 import { Command } from "./definitions/configuration.interface";
 import { isNil } from "lodash";
 import { isString } from "lodash";
+import { isArray } from "lodash";
 import AggregateError from "aggregate-error";
 import { getError } from "./get-error";
 
 const isNonEmptyString = (value: unknown) =>
   isString(value) && value.trim().length > 0;
+
+const isNonEmptyStringOrArrayOfThem = (value: unknown) =>
+  isNonEmptyString(value) ||
+  (isArray(value) && value.length > 0 && value.every(isNonEmptyString));
 
 const isOptional =
   (validator: (value: unknown) => boolean) => (value: unknown) =>
@@ -18,7 +23,7 @@ interface Validator {
 const validators: Array<Validator> = [
   { key: "cwd", validator: isOptional(isNonEmptyString) },
   { key: "file", validator: isNonEmptyString },
-  { key: "selector", validator: isNonEmptyString },
+  { key: "selector", validator: isNonEmptyStringOrArrayOfThem },
   { key: "value", validator: isNonEmptyString },
 ];
 
