@@ -10,6 +10,11 @@ jobs:
   release:
     name: release
     runs-on: ubuntu-latest
+    permissions:
+      # push the release commit and tag
+      contents: write
+      # npm trusted publishing (OIDC); no NPM_TOKEN needed
+      id-token: write
     steps:
       - uses: actions/checkout@v4
       # pnpm comes from the packageManager field in package.json. pnpm 12 needs a
@@ -24,4 +29,3 @@ jobs:
       - run: pnpm exec semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

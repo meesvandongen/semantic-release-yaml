@@ -15,11 +15,11 @@
     "yaml-diff-patch": "^2.0.0"
   },
   "devDependencies": {
-    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/git": "^11.0.1",
     "@types/js-yaml": "^4.0.5",
     "@types/lodash": "^4.14.178",
-    "@types/semantic-release": "^17.2.3",
-    "semantic-release": "18.0.1",
+    "@types/node": "^24.19.2",
+    "semantic-release": "^25.0.9",
     "type-fest": "^2.8.0",
     "typescript": "^7.0.2",
     "vite-plus": "catalog:"
