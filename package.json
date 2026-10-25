@@ -16,16 +16,13 @@
   },
   "devDependencies": {
     "@semantic-release/git": "^10.0.1",
-    "@swc/core": "^1.2.125",
-    "@swc/jest": "^0.2.15",
-    "@types/jest": "^27.4.0",
     "@types/js-yaml": "^4.0.5",
     "@types/lodash": "^4.14.178",
     "@types/semantic-release": "^17.2.3",
-    "jest": "^27.4.5",
-    "microbundle": "^0.14.2",
     "semantic-release": "18.0.1",
-    "type-fest": "^2.8.0"
+    "type-fest": "^2.8.0",
+    "typescript": "^7.0.2",
+    "vite-plus": "catalog:"
   },
   "files": [
     "dist/**/*"
@@ -55,9 +52,13 @@
   },
   "scripts": {
     "semantic-release": "semantic-release",
-    "build": "microbundle --target=node --format cjs --compress",
-    "build:watch": "microbundle watch --target=node --format cjs --compress",
-    "test": "jest",
-    "test:watch": "jest --watch"
-  }
+    "build": "vp pack",
+    "build:watch": "vp pack --watch",
+    "test": "vp test run",
+    "test:watch": "vp test",
+    "lint": "vp lint",
+    "format": "vp fmt",
+    "format:check": "vp fmt --check"
+  },
+  "packageManager": "pnpm@12.15.0+sha512.b3951d6d6ff4a9f13dc7cf56cd28d2b8eb37dbcc9c68e52e1e1191873ea9f82a017287ab50baadc5ccc494f036c67c0e47eb13608c2fa36f47711b61ea128e61"
 }
