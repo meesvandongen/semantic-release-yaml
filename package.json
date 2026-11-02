@@ -18,7 +18,7 @@
     "@semantic-release/git": "^11.0.1",
     "@types/js-yaml": "^4.0.5",
     "@types/lodash": "^4.14.178",
-    "@types/node": "^24.19.2",
+    "@types/node": "^26.0.0",
     "semantic-release": "^25.0.9",
     "type-fest": "^2.8.0",
     "typescript": "^7.0.2",
