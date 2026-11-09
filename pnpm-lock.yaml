@@ -210,8 +210,8 @@ importers:
         specifier: ^25.0.9
         version: 25.0.9(supports-color@7.2.0)(typescript@7.0.2)
       type-fest:
-        specifier: ^2.8.0
-        version: 2.19.0
+        specifier: ^5.0.0
+        version: 5.10.0
       typescript:
         specifier: ^7.0.2
         version: 7.0.2
